@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-lg-5">
+    <div class="card shadow-sm card-soft">
+      <div class="card-header">
+        <h5 data-i18n="titre_televerser_cv">Téléverser des CV</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label" data-i18n="label_offre_selection">Sélectionnez une offre</label>
+            <select name="offre_id" class="form-select">
+              <option value="" data-i18n="option_aucune_offre">Aucune offre</option>
+              {% for offre in offres %}
+              <option value="{{ offre.id }}">{{ offre.titre }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" data-i18n="label_cv">Choisissez des fichiers PDF</label>
+            <input type="file" name="fichiers" class="form-control" accept="application/pdf" multiple required>
+          </div>
+          <button type="submit" class="btn btn-primary" data-i18n="bouton_televerser">Téléverser</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-7">
+    <div class="card shadow-sm card-soft">
+      <div class="card-header">
+        <h5 data-i18n="titre_cvs">Liste des CV</h5>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-borderless table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th data-i18n="col_nom">Nom du fichier</th>
+              <th data-i18n="col_score">Score</th>
+              <th data-i18n="col_date">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cv in cvs %}
+            <tr>
+              <td>{{ cv.nom_fichier }}</td>
+              <td>{{ cv.score }}%</td>
+              <td>{{ cv.date.strftime('%d/%m/%Y') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

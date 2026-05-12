@@ -1,0 +1,138 @@
+:root {
+  --primary: #1f57ff;
+  --soft: #f4f7ff;
+  --text-dark: #1f2937;
+  --bg: #ffffff;
+  --card: #ffffff;
+  --border: rgba(31, 87, 255, 0.15);
+}
+
+body {
+  background: var(--soft);
+  color: var(--text-dark);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f6ff 100%);
+  border-right: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.sidebar-brand {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.sidebar .nav-link {
+  color: #1f2937;
+  font-weight: 500;
+  margin-bottom: 8px;
+  border-radius: 12px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background: rgba(31, 87, 255, 0.1);
+  color: var(--primary);
+}
+
+.main-content {
+  flex: 1;
+  min-height: 100vh;
+  background: var(--soft);
+}
+
+.topbar {
+  background: var(--bg);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.card-soft {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.card-header h5,
+.card-title {
+  font-weight: 700;
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background: #194be0;
+  border-color: #194be0;
+}
+
+table th,
+table td {
+  vertical-align: middle;
+}
+
+.alert {
+  border-radius: 14px;
+}
+
+.theme-dark {
+  --primary: #5eb5ff;
+  --soft: #0f172a;
+  --text-dark: #f8fafc;
+  --bg: #020617;
+  --card: #0b1228;
+  --border: rgba(94, 181, 255, 0.18);
+}
+
+.theme-dark body {
+  background: var(--soft);
+  color: var(--text-dark);
+}
+
+.theme-dark .sidebar {
+  background: #06112e;
+}
+
+.theme-dark .sidebar .nav-link,
+.theme-dark .sidebar-brand,
+.theme-dark .topbar,
+.theme-dark .card-soft {
+  color: #e2e8f0;
+}
+
+.theme-dark .card-soft {
+  background: #09172f;
+}
+
+.theme-dark .topbar {
+  background: #071127;
+}
+
+.theme-dark .btn-outline-secondary {
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    height: 100%;
+    z-index: 1050;
+    transition: left 0.25s ease;
+  }
+  .sidebar.show {
+    left: 0;
+  }
+  .main-content {
+    margin-left: 0;
+  }
+}

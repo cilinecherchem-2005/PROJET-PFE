@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-md-4">
+    <div class="card card-soft p-3 shadow-sm">
+      <div class="card-body">
+        <h6 data-i18n="stat_offres">Offres publiées</h6>
+        <h2>{{ total_offres }}</h2>
+        <p class="text-muted" data-i18n="stat_offres_desc">Nombre total d'offres</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4">
+    <div class="card card-soft p-3 shadow-sm">
+      <div class="card-body">
+        <h6 data-i18n="stat_cvs">CV analysés</h6>
+        <h2>{{ total_cvs }}</h2>
+        <p class="text-muted" data-i18n="stat_cvs_desc">Candidats téléchargés</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4">
+    <div class="card card-soft p-3 shadow-sm">
+      <div class="card-body">
+        <h6 data-i18n="stat_score">Score moyen</h6>
+        <h2>{{ moyenne_score }}%</h2>
+        <p class="text-muted" data-i18n="stat_score_desc">Compatibilité moyenne</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mt-3">
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm card-soft">
+      <div class="card-header">
+        <h5 data-i18n="graph_offres">Analyse des offres</h5>
+      </div>
+      <div class="card-body">
+        <canvas id="chartOffres"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm card-soft">
+      <div class="card-header">
+        <h5 data-i18n="graph_candidats">Top candidats</h5>
+      </div>
+      <div class="card-body">
+        <canvas id="chartCandidats"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mt-3">
+  <div class="col-12">
+    <div class="card shadow-sm card-soft">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 data-i18n="titre_topcandidats">Meilleurs candidats</h5>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-borderless table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th data-i18n="col_nom">Nom du fichier</th>
+              <th data-i18n="col_score">Score</th>
+              <th data-i18n="col_date">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for candidat in top_candidats %}
+            <tr>
+              <td>{{ candidat.nom_fichier }}</td>
+              <td>{{ candidat.score }}%</td>
+              <td>{{ candidat.date.strftime('%d/%m/%Y') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+window.offreLabels = {{ offres|map(attribute='titre')|list|tojson }};
+window.candidatScores = {{ top_candidats|map(attribute='score')|list|tojson }};
+window.totalOffres = {{ total_offres }};
+window.totalCVs = {{ total_cvs }};
+</script>
+{% endblock %}

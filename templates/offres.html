@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-lg-5">
+    <div class="card shadow-sm card-soft">
+      <div class="card-header">
+        <h5 data-i18n="titre_creer_offre">Créer une offre</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label" data-i18n="label_titre">Titre</label>
+            <input type="text" name="titre" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" data-i18n="label_description">Description</label>
+            <textarea name="description" class="form-control" rows="4" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" data-i18n="label_competences">Compétences (séparées par des virgules)</label>
+            <input type="text" name="competences" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary" data-i18n="bouton_ajouter_offre">Ajouter l'offre</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-7">
+    <div class="card shadow-sm card-soft">
+      <div class="card-header">
+        <h5 data-i18n="titre_offres">Liste des offres</h5>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-borderless table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th data-i18n="col_titre">Titre</th>
+              <th data-i18n="col_competences">Compétences</th>
+              <th data-i18n="col_date">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for offre in offres %}
+            <tr>
+              <td>{{ offre.titre }}</td>
+              <td>{{ offre.competences }}</td>
+              <td>{{ offre.date.strftime('%d/%m/%Y') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
