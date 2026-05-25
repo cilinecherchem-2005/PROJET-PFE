@@ -22,7 +22,12 @@ def create_app():
     """Créer et configurer l'application Flask."""
     app = Flask(__name__, template_folder='templates', static_folder='static')
     app.secret_key = os.environ.get('SECRET_KEY', 'cle_secrete_pour_session')
+
+    # Garantir l'existence du dossier d'upload (utile en environnement type Render)
+    os.makedirs(os.path.join(os.path.dirname(__file__), 'static', 'uploads'), exist_ok=True)
+
     db_url = os.environ.get('DATABASE_URL', 'mysql+pymysql://recruteur:motdepasse@localhost/recrutement')
+
     if db_url.startswith('mysql://'):
         db_url = db_url.replace('mysql://', 'mysql+pymysql://', 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url

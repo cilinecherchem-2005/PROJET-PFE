@@ -67,17 +67,32 @@ http://127.0.0.1:5000
 
 ## ☁️ Déploiement Render
 
-1. Poussez votre projet sur GitHub.
-2. Créez un service Python sur Render.
-3. Dans Render, définissez les commandes :
-   - Build Command : `pip install -r requirements.txt`
-   - Start Command : `gunicorn app:app`
-4. Ajoutez ces variables d'environnement :
-   - `DATABASE_URL`
-   - `SECRET_KEY`
-5. Déployez.
+### 1) Pré-requis
+- Un dépôt GitHub.
+- Une base **MySQL** (Render MySQL add-on ou MySQL externe).
 
-> Si Render fournit `mysql://...`, l'application convertit automatiquement en `mysql+pymysql://...`.
+### 2) Paramètres du service Render (Python)
+1. Poussez votre projet sur GitHub.
+2. Dans Render : **New +** → **Web Service** → **Python**.
+3. Configurez :
+   - **Build Command** :
+     - `pip install -r requirements.txt && python -m spacy download en_core_web_sm`
+   - **Start Command** :
+     - `gunicorn app:app`
+
+### 3) Variables d’environnement
+Ajoutez au service Render :
+- `SECRET_KEY` : une clé secrète (ex: chaîne aléatoire)
+- `DATABASE_URL` : URL de connexion MySQL.
+
+> Si votre `DATABASE_URL` commence par `mysql://...`, l'application convertit automatiquement en `mysql+pymysql://...`.
+
+### 4) Déployer
+- Cliquez sur **Deploy**.
+
+### 5) Test
+- Ouvrez l’URL Render et utilisez `/connexion` puis essayez un upload de CV (PDF).
+
 
 ## 📁 Structure du projet
 
