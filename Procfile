@@ -1,4 +1,7 @@
 
-web: gunicorn app:app
+web: ./render_start.sh
+
+
+
 
 

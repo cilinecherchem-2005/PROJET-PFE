@@ -1,21 +1,11 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import spacy
 
 # Création de l'objet de base de données
 # Ce fichier contient la configuration Flask et SQLAlchemy
 
 db = SQLAlchemy()
-
-# Chargement du modèle spaCy pour l'analyse de texte
-# Ce modèle sera chargé seulement quand nécessaire
-if __name__ != '__main__':
-    try:
-        import spacy
-        nlp = spacy.load('en_core_web_sm')
-    except:
-        nlp = None
 
 
 def create_app():
@@ -26,10 +16,19 @@ def create_app():
     # Garantir l'existence du dossier d'upload (utile en environnement type Render)
     os.makedirs(os.path.join(os.path.dirname(__file__), 'static', 'uploads'), exist_ok=True)
 
-    db_url = os.environ.get('DATABASE_URL', 'mysql+pymysql://recruteur:motdepasse@localhost/recrutement')
+    db_url = os.environ.get(
+        'DATABASE_URL',
+        'mysql+pymysql://recruteur:motdepasse@localhost/recrutement'
+    )
 
+    # Render PostgreSQL fournit généralement un DATABASE_URL sous forme postgres://...
+    if db_url.startswith('postgres://'):
+        db_url = db_url.replace('postgres://', 'postgresql://', 1)
+
+    # Support ancien MySQL (si tu as encore une config MySQL)
     if db_url.startswith('mysql://'):
         db_url = db_url.replace('mysql://', 'mysql+pymysql://', 1)
+
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
@@ -45,3 +44,4 @@ def create_app():
         db.create_all()
 
     return app
+
