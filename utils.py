@@ -14,6 +14,7 @@ def get_nlp():
         print("[AVERTISSEMENT] Modèle spaCy non installé, analyse texte limitée")
         return None
 
+
 # Fonctions utilitaires pour le backend
 
 def extraire_texte_pdf(chemin_fichier):
@@ -47,4 +48,7 @@ def calculer_score(texte_cv, texte_offre):
         score = cosine_similarity(matrice[0:1], matrice[1:2])[0][0]
     except ValueError:
         score = 0
-    return round(score * 100, 2)
+
+    # PostgreSQL/SQLAlchemy refuse parfois numpy.float64 : forcer un float Python natif
+    return float(round(score * 100, 2))
+
