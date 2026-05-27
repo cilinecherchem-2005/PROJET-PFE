@@ -185,11 +185,11 @@
 </div>
 
 <script>
-  // render-safe JSON (avoid complex template expressions inside JS)
-  window.offreLabels = {{ offres|map(attribute='titre')|list|tojson }};
-  window.candidatScores = {{ top_candidats|map(attribute='score')|list|tojson }};
-  window.totalOffres = {{ total_offres|tojson }};
-  window.totalCVs = {{ total_cvs|tojson }};
+  // render-safe JSON: avoid complex Jinja expressions in JS
+  window.offreLabels = {{ offres|default([])|tojson }};
+  window.candidatScores = {{ top_candidats|default([])|tojson }};
+  window.totalOffres = {{ total_offres|default(0)|int }};
+  window.totalCVs = {{ total_cvs|default(0)|int }};
 </script>
 {% endblock %}
 
