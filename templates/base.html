@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title data-i18n="titre_site">Recrutement Intelligent</title>
+    <title data-i18n-key="titre_site">Yassir-RH</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -11,33 +12,52 @@
   <body>
     <div class="app-shell">
       <aside class="sidebar shadow-sm">
-        <div class="sidebar-brand text-center py-4">
-          <h2>AI Recruteur</h2>
-          <p class="small text-muted" data-i18n="sidebar_subtitle">Dashboard moderne</p>
+        <div class="sidebar-brand">
+          <div class="logo-mark">Y</div>
+          <div>
+            <div class="fw-bold" style="letter-spacing:-.02em;">Yassir-RH</div>
+            <div class="small muted small" style="opacity:.85;" data-i18n-key="sidebar_subtitle">SaaS recrutement IA</div>
+          </div>
         </div>
-        <nav class="nav flex-column px-3">
-          <a class="nav-link active" href="{{ url_for('dashboard') }}" data-i18n="nav_dashboard">Tableau de bord</a>
-          <a class="nav-link" href="{{ url_for('offres') }}" data-i18n="nav_offres">Offres</a>
-          <a class="nav-link" href="{{ url_for('upload_cv') }}" data-i18n="nav_cv">Gérer CV</a>
-          <a class="nav-link" href="{{ url_for('candidats') }}" data-i18n="nav_candidats">Candidats</a>
-          <a class="nav-link" href="{{ url_for('deconnexion') }}" data-i18n="nav_deconnexion">Déconnexion</a>
+
+        <nav class="nav-links" aria-label="Navigation">
+
+          <a class="nav-item active" href="{{ url_for('dashboard') }}" data-i18n-key="nav_dashboard">Dashboard</a>
+          <a class="nav-item" href="{{ url_for('offres') }}" data-i18n-key="nav_offres">Offres</a>
+          <a class="nav-item" href="{{ url_for('upload_cv') }}" data-i18n-key="nav_upload">Upload CV</a>
+          <a class="nav-item" href="{{ url_for('candidats') }}" data-i18n-key="nav_candidats">Candidats</a>
+          <a class="nav-item" href="#" data-i18n-key="nav_assistant">Assistant IA</a>
         </nav>
+
+        <div class="sidebar-footer">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="{{ url_for('deconnexion') }}" class="btn btn-sm" style="background: rgba(124,58,237,.12); border:1px solid rgba(124,58,237,.28); color: inherit; border-radius: 12px; font-weight: 700;">
+              <i class="fa-solid fa-right-from-bracket me-2"></i>Déconnexion
+            </a>
+          </div>
+        </div>
       </aside>
+
 
       <main class="main-content">
         <header class="topbar d-flex justify-content-between align-items-center px-4 py-3 shadow-sm">
           <div>
-            <button class="btn btn-outline-primary btn-sm d-md-none" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
-            <span class="h5 mb-0" data-i18n="titre_page">Dashboard</span>
+            <div class="h5 mb-0" data-i18n-key="page_title">Recrutez plus vite avec l'IA</div>
+            <div class="small muted small" data-i18n-key="page_subtitle">Publish jobs, upload CVs and automate matching.</div>
           </div>
-          <div class="d-flex gap-2 align-items-center">
-            <button class="btn btn-outline-secondary btn-sm" id="themeToggle" data-i18n="bouton_theme">Thème</button>
-            <select id="langSelect" class="form-select form-select-sm">
+          <div class="ctrl-row" style="min-width: 320px;">
+            <select id="langSelect" class="select" style="max-width: 190px;" aria-label="Language">
               <option value="fr">Français</option>
               <option value="en">English</option>
               <option value="ar">العربية</option>
             </select>
+
+            <div class="d-flex align-items-center gap-2" style="white-space:nowrap;">
+              <span class="small-muted">Dark</span>
+              <button type="button" class="form-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+            </div>
           </div>
+
         </header>
 
         <section class="container-fluid px-4 py-4">

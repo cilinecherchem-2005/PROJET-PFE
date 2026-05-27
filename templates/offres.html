@@ -1,57 +1,77 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row g-4">
-  <div class="col-12 col-lg-5">
-    <div class="card shadow-sm card-soft">
-      <div class="card-header">
-        <h5 data-i18n="titre_creer_offre">Créer une offre</h5>
-      </div>
-      <div class="card-body">
-        <form method="POST">
-          <div class="mb-3">
-            <label class="form-label" data-i18n="label_titre">Titre</label>
-            <input type="text" name="titre" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label" data-i18n="label_description">Description</label>
-            <textarea name="description" class="form-control" rows="4" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label" data-i18n="label_competences">Compétences (séparées par des virgules)</label>
-            <input type="text" name="competences" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary" data-i18n="bouton_ajouter_offre">Ajouter l'offre</button>
-        </form>
-      </div>
+  <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+    <div>
+      <h2 class="page-title mb-1" data-i18n-key="nav_offres">Offres</h2>
+      <div class="small-muted">Gérez vos offres et lancez le matching.</div>
+    </div>
+
+    <div>
+      <a href="{{ url_for('offres') }}" class="btn" style="background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%); color:white; border:none; border-radius:14px; font-weight:900;">
+        + Nouvelle offre
+      </a>
     </div>
   </div>
-  <div class="col-12 col-lg-7">
-    <div class="card shadow-sm card-soft">
-      <div class="card-header">
-        <h5 data-i18n="titre_offres">Liste des offres</h5>
+
+  <div class="card" style="padding:18px;">
+    <form method="POST">
+      <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-3">
+          <label class="small-muted form-label" for="titre">Titre</label>
+          <input id="titre" type="text" name="titre" class="form-control" required />
+        </div>
+        <div class="col-12 col-md-5">
+          <label class="small-muted form-label" for="description">Description</label>
+          <textarea id="description" name="description" class="form-control" rows="2" required></textarea>
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="small-muted form-label" for="competences">Compétences</label>
+          <input id="competences" type="text" name="competences" class="form-control" required />
+        </div>
+        <div class="col-12 col-md-1">
+          <button class="btn" type="submit" style="background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%); color:white; border:none; border-radius:14px; font-weight:900; width:100%;">
+            Ajouter
+          </button>
+        </div>
       </div>
-      <div class="card-body table-responsive">
-        <table class="table table-borderless table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th data-i18n="col_titre">Titre</th>
-              <th data-i18n="col_competences">Compétences</th>
-              <th data-i18n="col_date">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for offre in offres %}
-            <tr>
-              <td>{{ offre.titre }}</td>
-              <td>{{ offre.competences }}</td>
-              <td>{{ offre.date.strftime('%d/%m/%Y') }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+    </form>
+  </div>
+
+  <div class="mt-4">
+    <div class="list">
+      {% for offre in offres %}
+        <div class="card list-row" style="border-radius:16px;">
+          <div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="fw-bold" style="font-size:16px;">{{ offre.titre }}</div>
+              {% set t = offre.titre|lower %}
+              {% if 'stage' in t %}
+                <span class="badge badge-stage">Stage</span>
+              {% elif 'altern' in t %}
+                <span class="badge badge-alternance">Alternance</span>
+              {% else %}
+                <span class="badge badge-emploi">Emploi</span>
+              {% endif %}
+            </div>
+            <div class="small-muted mt-1" style="max-width: 720px;">{{ offre.competences }}</div>
+            <div class="small-muted mt-1">{{ offre.date.strftime('%d/%m/%Y') }}</div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <a href="{{ url_for('upload_cv') }}" class="btn" style="border-radius:14px; font-weight:900; background: rgba(124,58,237,.12); border:1px solid rgba(124,58,237,.28); color:inherit;">
+              Matcher →
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+
+      {% if offres|length == 0 %}
+        <div class="card" style="padding:18px;">
+          <div class="small-muted">Aucune offre pour le moment.</div>
+        </div>
+      {% endif %}
     </div>
   </div>
-</div>
 {% endblock %}
+

@@ -1,35 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row">
-  <div class="col-12">
-    <div class="card shadow-sm card-soft">
-      <div class="card-header">
-        <h5 data-i18n="titre_candidats">Classement des candidats</h5>
-      </div>
-      <div class="card-body table-responsive">
-        <table class="table table-borderless table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th data-i18n="col_nom">Nom du fichier</th>
-              <th data-i18n="col_score">Score</th>
-              <th data-i18n="col_offre">Offre liée</th>
-              <th data-i18n="col_date">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for cv in cvs %}
-            <tr>
-              <td>{{ cv.nom_fichier }}</td>
-              <td>{{ cv.score }}%</td>
-              <td>{{ cv.offre_id if cv.offre_id else '---' }}</td>
-              <td>{{ cv.date.strftime('%d/%m/%Y') }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+  <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+    <div>
+      <h2 class="page-title mb-1" data-i18n-key="titre_candidats">Candidats</h2>
+      <div class="small-muted">Liste des CV analysés avec statut et score.</div>
+    </div>
+    <span class="badge" style="background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.24); color:#16a34a;">Terminé</span>
+  </div>
+
+  <div class="card" style="padding:18px;">
+    <div class="list">
+      {% for cv in cvs %}
+        <div class="card list-row" style="border-radius:16px;">
+          <div>
+            <div class="fw-bold" style="font-size:16px;">{{ cv.nom_fichier }}</div>
+            <div class="small-muted mt-1">{{ cv.date.strftime('%d/%m/%Y') }}</div>
+            <div class="small-muted mt-1">Offre ID: {{ cv.offre_id if cv.offre_id else '—' }}</div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            {% if cv.score > 70 %}
+              <span class="score-badge score-green"><i class="fa-solid fa-check me-2"></i>Score: {{ cv.score }}/100</span>
+            {% elif cv.score >= 40 %}
+              <span class="score-badge score-orange"><i class="fa-solid fa-hourglass-half me-2"></i>Score: {{ cv.score }}/100</span>
+            {% else %}
+              <span class="score-badge score-red"><i class="fa-solid fa-triangle-exclamation me-2"></i>Score: {{ cv.score }}/100</span>
+            {% endif %}
+
+            <span class="badge status-done">Terminé</span>
+          </div>
+        </div>
+      {% endfor %}
+
+      {% if cvs|length == 0 %}
+        <div class="card" style="padding:18px;">
+          <div class="small-muted">Aucun CV analysé pour le moment.</div>
+        </div>
+      {% endif %}
     </div>
   </div>
-</div>
 {% endblock %}
+
