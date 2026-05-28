@@ -1,0 +1,87 @@
+@startuml
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Recruteur" as Recruiter
+
+rectangle "Yassir RH Platform" {
+
+    ' =========================
+    ' Ligne principale horizontale
+    ' =========================
+
+    (S'inscrire) as UC_Register
+    (Se connecter) as UC_Login
+    (Accéder au dashboard) as UC_Dashboard
+    (Créer offre d'emploi) as UC_Offer
+    (Uploader CV PDF) as UC_Upload
+    (Analyser CV) as UC_Analyse
+    (Consulter résultats) as UC_Result
+    (Afficher statistiques) as UC_Stats
+
+    ' =========================
+    ' Ligne secondaire
+    ' =========================
+
+    (Gérer profil) as UC_Profile
+    (Changer langue) as UC_Language
+    (Changer thème) as UC_Theme
+    (Se déconnecter) as UC_Logout
+
+
+    ' =========================
+    ' Alignement horizontal
+    ' =========================
+
+    UC_Register -[hidden]right- UC_Login
+    UC_Login -[hidden]right- UC_Dashboard
+    UC_Dashboard -[hidden]right- UC_Offer
+    UC_Offer -[hidden]right- UC_Upload
+    UC_Upload -[hidden]right- UC_Analyse
+    UC_Analyse -[hidden]right- UC_Result
+    UC_Result -[hidden]right- UC_Stats
+
+}
+
+' =========================
+' Relations acteur
+' =========================
+
+Recruiter --> UC_Register
+Recruiter --> UC_Login
+
+' =========================
+' Relations INCLUDE
+' =========================
+
+UC_Login .> UC_Dashboard : <<include>>
+
+UC_Dashboard .> UC_Profile : <<include>>
+
+UC_Dashboard .> UC_Offer : <<include>>
+
+UC_Dashboard .> UC_Upload : <<include>>
+
+UC_Dashboard .> UC_Analyse : <<include>>
+
+UC_Dashboard .> UC_Result : <<include>>
+
+UC_Dashboard .> UC_Stats : <<include>>
+
+UC_Dashboard .> UC_Logout : <<include>>
+
+UC_Analyse .> UC_Offer : <<include>>
+
+UC_Analyse .> UC_Upload : <<include>>
+
+' =========================
+' Relations EXTEND
+' =========================
+
+UC_Language .> UC_Dashboard : <<extend>>
+
+UC_Theme .> UC_Dashboard : <<extend>>
+
+@enduml

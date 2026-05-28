@@ -3,7 +3,7 @@ set -e
 
 # Render will run this script. We ensure dependencies/models exist.
 # (no-op if already installed/cached)
-python -m spacy download en_core_web_sm || true
+python -m spacy download fr_core_news_sm || true
 
 # Use Render-provided PORT when present.
 PORT=${PORT:-5000}

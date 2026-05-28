@@ -9,7 +9,7 @@ def get_nlp():
     """Charger le modèle spaCy à la demande."""
     try:
         import spacy
-        return spacy.load('en_core_web_sm')
+        return spacy.load('fr_core_news_sm')
     except:
         print("[AVERTISSEMENT] Modèle spaCy non installé, analyse texte limitée")
         return None
